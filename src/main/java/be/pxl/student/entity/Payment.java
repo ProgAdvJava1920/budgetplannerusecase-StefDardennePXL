@@ -5,6 +5,9 @@ import java.util.Objects;
 
 public class Payment {
 
+    private int id;
+    private int accountId;
+    private int counterAccountId;
     private String IBAN;
     private Date date;
     private float amount;
@@ -17,6 +20,37 @@ public class Payment {
         this.amount = amount;
         this.currency = currency;
         this.detail = detail;
+    }
+
+    public Payment(int id, int accountId, int counterAccountId, String IBAN, Date date, float amount, String currency, String detail) {
+        this.id = id;
+        this.accountId = accountId;
+        this.counterAccountId = counterAccountId;
+        this.IBAN = IBAN;
+        this.date = date;
+        this.amount = amount;
+        this.currency = currency;
+        this.detail = detail;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public int getCounterAccountId() {
+        return counterAccountId;
+    }
+
+    public void setCounterAccountId(int counterAccountId) {
+        this.counterAccountId = counterAccountId;
     }
 
     public String getIBAN() {
