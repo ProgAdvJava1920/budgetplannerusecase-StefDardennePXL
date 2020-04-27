@@ -26,6 +26,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Payment` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `IBAN` VARCHAR(255) NOT NULL DEFAULT NULL,
   `date` DATETIME NULL DEFAULT NULL,
   `amount` FLOAT NULL DEFAULT NULL,
   `currency` VARCHAR(45) NULL DEFAULT NULL,
@@ -56,3 +57,10 @@ ENGINE = InnoDB;
 
 INSERT INTO Account VALUES(1, 'DummyIBAN', 'DummyName');
 INSERT INTO Account VALUES(2, 'DummyIBAN2', 'DummyName2');
+INSERT INTO Account VALUES(3, 'DummyIBAN3', 'DummyName3');
+
+INSERT INTO Payment (`id`, `IBAN`, `amount`, `currency`, `detail`, `accountId`, `counterAccountId`)
+VALUES(1, 'DummyIBANx', 150.55, 'EUR', 'detailsabc', 1, 2);
+
+INSERT INTO Payment (`id`, `IBAN`, `amount`, `currency`, `detail`, `accountId`, `counterAccountId`)
+VALUES(2, 'DummyIBANy', 40.23, 'EUR', 'detailfjdqme', 1, 2);

@@ -11,11 +11,11 @@ public class AccountDAO implements DAO<Account, AccountException> {
 
     private static Logger logger = LogManager.getLogger(AccountDAO.class);
 
-    public static final String SELECT_BY_ID = "select * from Account where id = ?";
+    private static final String SELECT_BY_ID = "select * from Account where id = ?";
     private static final String SELECT_ALL = "select * from Account";
     private static final String CREATE_ACCOUNT = "insert into Account (`IBAN`, `name` ) values(?, ?)";
     private static final String DELETE_ACCOUNT = "delete from Account where id = ?";
-    private static final String UPDATE_ACCOUNT = "update account set iban = ?, name = ? where id = ?";
+    private static final String UPDATE_ACCOUNT = "update Account set iban = ?, name = ? where id = ?";
 
 
     private DAOManager manager;

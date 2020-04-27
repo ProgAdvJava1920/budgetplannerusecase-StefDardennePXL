@@ -33,10 +33,10 @@ class AccountDAOTest {
     }
 
     @Test
-    void it_should_return_2_items() throws AccountException {
+    void it_should_return_3_items() throws AccountException {
         List<Account> accounts = dao.getAll();
         System.out.println(accounts);
-        assertEquals(2, accounts.size());
+        assertEquals(3, accounts.size());
     }
 
     @Test
@@ -57,10 +57,9 @@ class AccountDAOTest {
 
     @Test
     void it_should_return_the_deleted_account() throws AccountException {
-        Account accountToDelete = dao.getById(1);
-        Account deletedAccount = dao.delete(accountToDelete);
-        assertThrows(AccountException.class, () -> {
-            dao.getById(1);
-        });
+        int accountCount = dao.getAll().size();
+        dao.delete(dao.getById(3));
+        int accountCountAfterDelete = dao.getAll().size();
+        assertEquals(accountCountAfterDelete, accountCount - 1);
     }
 }

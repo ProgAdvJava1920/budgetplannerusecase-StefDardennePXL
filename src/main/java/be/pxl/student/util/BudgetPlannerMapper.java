@@ -9,9 +9,9 @@ import java.util.*;
 
 public class BudgetPlannerMapper {
 
-    public static final String DATE_PATTERN = "EEE MMM dd HH:mm:ss zzz yyyy";
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_PATTERN, Locale.US);
-    public static final int CSV_ITEM_COUNT = 7;
+    private static final String DATE_PATTERN = "EEE MMM dd HH:mm:ss zzz yyyy";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_PATTERN, Locale.US);
+    private static final int CSV_ITEM_COUNT = 7;
 
     private Map<String, Account> accountMap = new HashMap<>();
 
@@ -54,11 +54,11 @@ public class BudgetPlannerMapper {
         );
     }
 
-    public Date convertToDate(String dateString) throws ParseException {
+    public static Date convertToDate(String dateString) throws ParseException {
         return DATE_FORMAT.parse(dateString);
     }
 
-    public String convertDateToString(Date date) {
+    public static String convertDateToString(Date date) {
         return DATE_FORMAT.format(date);
     }
 }
