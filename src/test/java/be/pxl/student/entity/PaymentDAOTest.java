@@ -1,12 +1,14 @@
 package be.pxl.student.entity;
 
+import be.pxl.student.entity.exception.PaymentException;
+import be.pxl.student.entity.jdbc.DAOManager;
+import be.pxl.student.entity.jdbc.PaymentDAO;
 import be.pxl.student.util.BudgetPlannerMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

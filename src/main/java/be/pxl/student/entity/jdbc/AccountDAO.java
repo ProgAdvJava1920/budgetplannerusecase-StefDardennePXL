@@ -1,5 +1,9 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.jdbc;
 
+import be.pxl.student.entity.Account;
+import be.pxl.student.entity.DAO;
+import be.pxl.student.entity.exception.AccountException;
+import be.pxl.student.entity.exception.AccountNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.exception;
 
 public class AccountNotFoundException extends AccountException {
     public AccountNotFoundException() {

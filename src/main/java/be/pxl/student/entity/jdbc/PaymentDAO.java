@@ -1,4 +1,9 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.jdbc;
+
+import be.pxl.student.entity.DAO;
+import be.pxl.student.entity.Payment;
+import be.pxl.student.entity.exception.PaymentException;
+import be.pxl.student.entity.exception.PaymentNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
