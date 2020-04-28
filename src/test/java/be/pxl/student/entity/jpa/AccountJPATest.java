@@ -35,7 +35,7 @@ class AccountJPATest {
 
     @Test
     void it_should_return_the_newly_created_account() throws AccountException {
-        Account accountToCreate = new Account(4, "DummyIBAN", "DummyName");
+        Account accountToCreate = new Account("DummyIBAN", "DummyName");
         Account accountCreated = dao.create(accountToCreate);
         assertEquals(accountCreated, accountToCreate);
     }

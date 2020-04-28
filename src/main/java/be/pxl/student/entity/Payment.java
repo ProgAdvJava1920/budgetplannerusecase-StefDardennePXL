@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+@NamedQuery(name = "findAllPayments", query = "select p from Payment as p")
 @Entity
 public class Payment {
 

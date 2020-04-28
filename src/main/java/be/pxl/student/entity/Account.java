@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@NamedQuery(name = "findAll", query = "select a from Account as a")
+@NamedQuery(name = "findAllAccounts", query = "select a from Account as a")
 @Entity
 public class Account {
 
