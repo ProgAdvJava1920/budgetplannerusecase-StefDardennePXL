@@ -1,15 +1,22 @@
 package be.pxl.student.entity;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@NamedQuery(name = "findAll", query = "select a from Account as a")
+@Entity
 public class Account {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String IBAN;
     private String name;
+
+    @OneToMany(mappedBy = "account", orphanRemoval = true)
     private List<Payment> payments = new ArrayList<>();
 
     public Account() {
@@ -75,6 +82,7 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
+                "Id='" + id + '\'' +
                 "IBAN='" + IBAN + '\'' +
                 ", name='" + name + '\'' +
                 ", payments=[" + payments.stream().map(Payment::toString).collect(Collectors.joining(",")) + "]}";

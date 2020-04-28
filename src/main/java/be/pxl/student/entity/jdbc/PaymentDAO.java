@@ -12,9 +12,9 @@ import java.util.List;
 public class PaymentDAO implements DAO<Payment, PaymentException> {
 
     private static final String SELECT_BY_ID = "select * from Payment where id = ?";
-    private static final String CREATE_PAYMENT = "insert into Payment (`IBAN`, `date`, `amount`, `currency`, `detail`, `accountId`, `counterAccountId` ) values(?, ?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_PAYMENT = "insert into Payment (`IBAN`, `date`, `amount`, `currency`, `detail`, `accountId`, `counterAccountId`) values(?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_ALL = "select * from Payment";
-    private static final String UPDATE_PAYMENT = "update Payment set IBAN = ?, date = ?, amount = ?, currency = ?, detail = ?, accountId = ?, counterAccountId = ? where id = ?";
+    private static final String UPDATE_PAYMENT = "update Payment set IBAN = ?, date = ?, amount = ?, currency = ?, detail = ? where id = ?";
     private static final String DELETE_PAYMENT = "delete from Payment where id = ?";
 
     private DAOManager manager;
@@ -31,8 +31,8 @@ public class PaymentDAO implements DAO<Payment, PaymentException> {
             preparedStatement.setFloat(3, payment.getAmount());
             preparedStatement.setString(4, payment.getCurrency());
             preparedStatement.setString(5, payment.getDetail());
-            preparedStatement.setInt(6, payment.getAccountId());
-            preparedStatement.setInt(7, payment.getCounterAccountId());
+            preparedStatement.setInt(6, payment.getAccount().getId());
+            preparedStatement.setInt(7, payment.getCounterAccount().getId());
             int result = preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.first()) {
@@ -59,13 +59,12 @@ public class PaymentDAO implements DAO<Payment, PaymentException> {
             if (resultSet.first()) {
                 return new Payment(
                         resultSet.getInt("id"),
-                        resultSet.getInt("accountId"),
-                        resultSet.getInt("counterAccountId"),
                         resultSet.getString("IBAN"),
                         resultSet.getDate("date"),
                         resultSet.getFloat("amount"),
                         resultSet.getString("currency"),
                         resultSet.getString("detail")
+
                 );
             } else {
                 throw new PaymentNotFoundException(String.format("Account with id [%d] not found", id));
@@ -82,9 +81,6 @@ public class PaymentDAO implements DAO<Payment, PaymentException> {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 paymentList.add(new Payment(
-                        resultSet.getInt("id"),
-                        resultSet.getInt("accountId"),
-                        resultSet.getInt("counterAccountId"),
                         resultSet.getString("IBAN"),
                         resultSet.getDate("date"),
                         resultSet.getFloat("amount"),
@@ -107,9 +103,7 @@ public class PaymentDAO implements DAO<Payment, PaymentException> {
             preparedStatement.setFloat(3, payment.getAmount());
             preparedStatement.setString(4, payment.getCurrency());
             preparedStatement.setString(5, payment.getDetail());
-            preparedStatement.setInt(6, payment.getAccountId());
-            preparedStatement.setInt(7, payment.getCounterAccountId());
-            preparedStatement.setInt(8, payment.getId());
+            preparedStatement.setInt(6, payment.getId());
             int result = preparedStatement.executeUpdate();
             if (result == 1) {
                 return payment;

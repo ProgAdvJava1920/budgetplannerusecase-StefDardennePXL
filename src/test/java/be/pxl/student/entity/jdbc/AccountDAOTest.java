@@ -1,5 +1,7 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.jdbc;
 
+import be.pxl.student.entity.Account;
+import be.pxl.student.entity.DAO;
 import be.pxl.student.entity.exception.AccountException;
 import be.pxl.student.entity.jdbc.AccountDAO;
 import be.pxl.student.entity.jdbc.DAOManager;
@@ -14,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountDAOTest {
 
     private static final String DB_URL = "jdbc:h2:mem:test;MODE=MySQL;INIT=RUNSCRIPT FROM 'classpath:BudgetPlannerTest.sql'";
-    private AccountDAO dao;
+    private DAO<Account, AccountException> dao;
     private DAOManager manager;
 
     @BeforeEach

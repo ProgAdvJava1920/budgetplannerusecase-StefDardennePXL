@@ -1,18 +1,32 @@
 package be.pxl.student.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 public class Payment {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int accountId;
-    private int counterAccountId;
+
+    @ManyToOne
+    @JoinColumn(name = "accountId")
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "counterAccountId")
+    private Account counterAccount;
+
     private String IBAN;
     private Date date;
     private float amount;
     private String currency;
     private String detail;
+
+    public Payment() {
+    }
 
     public Payment(String IBAN, Date date, float amount, String currency, String detail) {
         this.IBAN = IBAN;
@@ -22,10 +36,8 @@ public class Payment {
         this.detail = detail;
     }
 
-    public Payment(int id, int accountId, int counterAccountId, String IBAN, Date date, float amount, String currency, String detail) {
+    public Payment(int id, String IBAN, Date date, float amount, String currency, String detail) {
         this.id = id;
-        this.accountId = accountId;
-        this.counterAccountId = counterAccountId;
         this.IBAN = IBAN;
         this.date = date;
         this.amount = amount;
@@ -36,24 +48,25 @@ public class Payment {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public int getCounterAccountId() {
-        return counterAccountId;
+    public Account getCounterAccount() {
+        return counterAccount;
     }
 
-    public void setCounterAccountId(int counterAccountId) {
-        this.counterAccountId = counterAccountId;
+    public void setCounterAccount(Account counterAccount) {
+        this.counterAccount = counterAccount;
     }
 
     public String getIBAN() {
@@ -116,6 +129,7 @@ public class Payment {
     @Override
     public String toString() {
         return "{" +
+                "Id=" + id +
                 "date=" + date +
                 ", amount=" + amount +
                 ", currency='" + currency + '\'' +

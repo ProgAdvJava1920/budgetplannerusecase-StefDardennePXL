@@ -1,5 +1,8 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.jdbc;
 
+import be.pxl.student.entity.Account;
+import be.pxl.student.entity.DAO;
+import be.pxl.student.entity.Payment;
 import be.pxl.student.entity.exception.PaymentException;
 import be.pxl.student.entity.jdbc.DAOManager;
 import be.pxl.student.entity.jdbc.PaymentDAO;
@@ -16,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PaymentDAOTest {
 
     private static final String DB_URL = "jdbc:h2:mem:test;MODE=MySQL;INIT=RUNSCRIPT FROM 'classpath:BudgetPlannerTest.sql'";
-    private PaymentDAO dao;
+    private DAO<Payment, PaymentException> dao;
     private DAOManager manager;
 
     @BeforeEach
@@ -33,8 +36,8 @@ class PaymentDAOTest {
     @Test
     void it_should_return_the_created_payment() throws ParseException, PaymentException {
         Payment paymentToCreate = new Payment("BE99454556567878", BudgetPlannerMapper.convertToDate("Thu Feb 13 05:47:35 CET 2020"), Float.parseFloat("100.50"), "EUR", "paymentdetails");
-        paymentToCreate.setAccountId(1);
-        paymentToCreate.setCounterAccountId(2);
+        paymentToCreate.setAccount(new Account(1, "accountiban", "accountname"));
+        paymentToCreate.setCounterAccount(new Account(2, "counteriban", "countername"));
         Payment paymentCreated = dao.create(paymentToCreate);
         assertEquals(paymentCreated, paymentToCreate);
     }
@@ -50,6 +53,10 @@ class PaymentDAOTest {
     void it_should_return_2_items() throws PaymentException {
         int expectedItems = 2;
         List<Payment> paymentList = dao.getAll();
+        for (Payment p :
+                paymentList) {
+            System.out.println(p.toString());
+        }
         assertEquals(paymentList.size(), expectedItems);
     }
 
