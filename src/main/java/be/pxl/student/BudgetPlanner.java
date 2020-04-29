@@ -23,6 +23,9 @@ import java.util.Optional;
 
 public class BudgetPlanner {
     private static Logger logger = LogManager.getLogger(BudgetPlanner.class);
+    private static AccountJPA accountDAO;
+    private static PaymentJPA paymentDAO;
+
     public static void main(String[] args) {
         Path csv = Paths.get("src/main/resources/account_payments.csv");
         try {
@@ -47,20 +50,21 @@ public class BudgetPlanner {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("budgetplanner");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        AccountJPA accountDAO = new AccountJPA(entityManager);
-        PaymentJPA paymentDAO = new PaymentJPA(entityManager);
+        accountDAO = new AccountJPA(entityManager);
+        paymentDAO = new PaymentJPA(entityManager);
 
         for (Account account : accountList) {
             accountDAO.create(account);
             for (Payment payment : account.getPayments()) {
                 payment.setAccount(account);
-                Account counterAccount;
-                Optional<Account> optional = accountList.stream().filter(a -> a.getIBAN().equals(payment.getIBAN())).findFirst();
-                counterAccount = optional.orElseGet(() -> accountDAO.create(new Account(payment.getIBAN())));
-                payment.setCounterAccount(counterAccount);
+                payment.setCounterAccount(findOrCreateCounterAccount(accountList, payment));
                 paymentDAO.create(payment);
             }
         }
+    }
 
+    private static Account findOrCreateCounterAccount(List<Account> accountList, Payment payment) {
+        Optional<Account> optional = accountList.stream().filter(a -> a.getIBAN().equals(payment.getIBAN())).findFirst();
+        return optional.orElseGet(() -> accountDAO.create(new Account(payment.getIBAN())));
     }
 }
