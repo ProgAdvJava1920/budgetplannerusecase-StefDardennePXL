@@ -29,6 +29,12 @@ public class AccountJPA implements DAO<Account, AccountException> {
         return entityManager.find(Account.class, id);
     }
 
+    public Account getByIBAN(String iban) {
+        TypedQuery<Account> query = entityManager.createNamedQuery("findByIban", Account.class);
+        query.setParameter("iban", iban);
+        return query.getSingleResult();
+    }
+
     @Override
     public List<Account> getAll() {
         TypedQuery<Account> query = entityManager.createNamedQuery("findAllAccounts", Account.class);

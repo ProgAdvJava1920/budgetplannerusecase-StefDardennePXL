@@ -19,6 +19,7 @@ import javax.persistence.Persistence;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 public class BudgetPlanner {
     private static Logger logger = LogManager.getLogger(BudgetPlanner.class);
@@ -46,14 +47,20 @@ public class BudgetPlanner {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("budgetplanner");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        DAO<Account, AccountException> accountDAO = new AccountJPA(entityManager);
-        DAO<Payment, PaymentException> paymentDAO = new PaymentJPA(entityManager);
+        AccountJPA accountDAO = new AccountJPA(entityManager);
+        PaymentJPA paymentDAO = new PaymentJPA(entityManager);
 
         for (Account account : accountList) {
             accountDAO.create(account);
             for (Payment payment : account.getPayments()) {
+                payment.setAccount(account);
+                Account counterAccount;
+                Optional<Account> optional = accountList.stream().filter(a -> a.getIBAN().equals(payment.getIBAN())).findFirst();
+                counterAccount = optional.orElseGet(() -> accountDAO.create(new Account(payment.getIBAN())));
+                payment.setCounterAccount(counterAccount);
                 paymentDAO.create(payment);
             }
         }
+
     }
 }

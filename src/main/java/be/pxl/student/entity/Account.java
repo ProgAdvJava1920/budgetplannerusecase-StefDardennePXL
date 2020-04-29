@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@NamedQuery(name = "findAllAccounts", query = "select a from Account as a")
+@NamedQueries({
+        @NamedQuery(name = "findAllAccounts", query = "select a from Account as a"),
+        @NamedQuery(name = "findByIban", query = "select a from Account as a where a.IBAN= :iban")
+})
 @Entity
 public class Account {
 
@@ -20,6 +23,10 @@ public class Account {
     private List<Payment> payments = new ArrayList<>();
 
     public Account() {
+    }
+
+    public Account(String iban) {
+        this.IBAN = iban;
     }
 
     public Account(String name, String IBAN) {
