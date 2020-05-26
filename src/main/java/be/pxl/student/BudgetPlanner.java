@@ -1,7 +1,6 @@
 package be.pxl.student;
 
 import be.pxl.student.entity.Account;
-import be.pxl.student.entity.DAO;
 import be.pxl.student.entity.Payment;
 import be.pxl.student.entity.exception.AccountException;
 import be.pxl.student.entity.exception.PaymentException;

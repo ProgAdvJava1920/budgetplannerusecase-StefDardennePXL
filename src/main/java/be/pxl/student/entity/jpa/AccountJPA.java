@@ -2,6 +2,7 @@ package be.pxl.student.entity.jpa;
 
 import be.pxl.student.entity.Account;
 import be.pxl.student.entity.DAO;
+import be.pxl.student.entity.Payment;
 import be.pxl.student.entity.exception.AccountException;
 
 import javax.persistence.EntityManager;
@@ -56,5 +57,20 @@ public class AccountJPA implements DAO<Account, AccountException> {
         entityManager.remove(accountToDelete);
         entityManager.getTransaction().commit();
         return account;
+    }
+
+    public Account getByName(String name) {
+        TypedQuery<Account> query = entityManager.createNamedQuery("findByName", Account.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
+    }
+
+    public List<Payment> getPaymentsByAccountName(String name) {
+        TypedQuery<Account> query = entityManager.createNamedQuery("findByName", Account.class);
+        query.setParameter("name", name);
+        Account account = query.getSingleResult();
+        List<Payment> payments = account.getPayments();
+        entityManager.close();
+        return payments;
     }
 }

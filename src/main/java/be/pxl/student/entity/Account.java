@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.*;
 @NamedQueries({
         @NamedQuery(name = "findAllAccounts", query = "select a from Account as a"),
-        @NamedQuery(name = "findByIban", query = "select a from Account as a where a.IBAN= :iban")
+        @NamedQuery(name = "findByIban", query = "select a from Account as a where a.IBAN= :iban"),
+        @NamedQuery(name = "findByName", query = "select a from Account as a where a.name= :name")
+
 })
 @Entity
 public class Account {
@@ -19,7 +22,7 @@ public class Account {
     private String IBAN;
     private String name;
 
-    @OneToMany(mappedBy = "account", orphanRemoval = true)
+    @OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Payment> payments = new ArrayList<>();
 
     public Account() {
@@ -83,7 +86,7 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(IBAN, name, payments);
+        return Objects.hash(IBAN, name);
     }
 
     @Override

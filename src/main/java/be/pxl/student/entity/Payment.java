@@ -12,11 +12,11 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "accountId")
     private Account account;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "counterAccountId")
     private Account counterAccount;
 
@@ -116,6 +116,8 @@ public class Payment {
         if (o == null || getClass() != o.getClass()) return false;
         Payment payment = (Payment) o;
         return Float.compare(payment.amount, amount) == 0 &&
+                Objects.equals(account, payment.account) &&
+                Objects.equals(counterAccount, payment.counterAccount) &&
                 Objects.equals(IBAN, payment.IBAN) &&
                 Objects.equals(date, payment.date) &&
                 Objects.equals(currency, payment.currency) &&
@@ -124,7 +126,7 @@ public class Payment {
 
     @Override
     public int hashCode() {
-        return Objects.hash(IBAN, date, amount, currency, detail);
+        return Objects.hash(account, counterAccount, IBAN, date, amount, currency, detail);
     }
 
     @Override
